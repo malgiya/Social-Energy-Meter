@@ -179,7 +179,7 @@ export const DeleteInteractionParams = zod.object({
 export const ListInsightsResponseItem = zod.object({
   "id": zod.number(),
   "content": zod.string(),
-  "category": zod.enum(['pattern', 'burnout_warning', 'recovery_suggestion', 'social_tip']),
+  "category": zod.enum(['pattern', 'burnout_warning', 'recovery_suggestion', 'social_tip', 'safe_person', 'circle_analysis']),
   "createdAt": zod.coerce.date()
 })
 export const ListInsightsResponse = zod.array(ListInsightsResponseItem)
@@ -191,9 +191,39 @@ export const ListInsightsResponse = zod.array(ListInsightsResponseItem)
 export const GenerateInsightsResponseItem = zod.object({
   "id": zod.number(),
   "content": zod.string(),
-  "category": zod.enum(['pattern', 'burnout_warning', 'recovery_suggestion', 'social_tip']),
+  "category": zod.enum(['pattern', 'burnout_warning', 'recovery_suggestion', 'social_tip', 'safe_person', 'circle_analysis']),
   "createdAt": zod.coerce.date()
 })
 export const GenerateInsightsResponse = zod.array(GenerateInsightsResponseItem)
+
+
+/**
+ * @summary AI-powered social circle analysis — safe people, exhausting patterns, interaction balance
+ */
+export const GetSocialCircleAnalysisResponse = zod.object({
+  "safePeople": zod.array(zod.object({
+  "personName": zod.string(),
+  "avgEnergyDelta": zod.number(),
+  "totalInteractions": zod.number(),
+  "safetyScore": zod.number().describe('0-100 score indicating how consistently this person energizes you'),
+  "summary": zod.string().describe('AI-generated one-line description of this relationship')
+})),
+  "connections": zod.array(zod.object({
+  "personName": zod.string(),
+  "avgEnergyDelta": zod.number(),
+  "totalInteractions": zod.number(),
+  "classification": zod.enum(['energizing', 'neutral', 'draining']),
+  "insight": zod.string().describe('Short AI-generated insight about this person')
+})),
+  "interactionBalance": zod.object({
+  "energizingCount": zod.number(),
+  "neutralCount": zod.number(),
+  "drainingCount": zod.number(),
+  "energizingPercent": zod.number(),
+  "drainingPercent": zod.number()
+}),
+  "overallHealthScore": zod.number().describe('0-100 score for overall social circle health'),
+  "summary": zod.string().describe('AI-generated one-paragraph summary of the user\'s social circle')
+})
 
 

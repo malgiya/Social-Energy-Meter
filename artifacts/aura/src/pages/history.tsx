@@ -124,7 +124,7 @@ export default function HistoryPage() {
             </motion.div>
           ) : (
             <div className="h-64 glass rounded-3xl flex flex-col items-center justify-center text-center p-8 border-white/5">
-              <History className="w-10 h-10 text-muted-foreground mb-4 opacity-50" />
+              <Calendar className="w-10 h-10 text-muted-foreground mb-4 opacity-50" />
               <p className="font-serif text-2xl text-foreground mb-2">The archive is empty.</p>
               <p className="text-muted-foreground">Your social history will appear here once you log an interaction.</p>
             </div>

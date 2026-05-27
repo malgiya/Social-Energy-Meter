@@ -49,7 +49,7 @@ router.post("/insights/generate", async (req, res): Promise<void> => {
 Here are their recent social interactions (last 7 days):
 ${JSON.stringify(interactionSummary, null, 2)}
 
-Generate 3-4 insightful observations about their social energy patterns. Each insight should be:
+Generate 4-5 insightful observations about their social energy patterns. Each insight should be:
 - Specific to their actual data, not generic
 - Actionable and constructive
 - Written in second person ("You tend to...", "Your energy...", "Consider...")
@@ -57,14 +57,18 @@ Generate 3-4 insightful observations about their social energy patterns. Each in
 
 Return a JSON array with this structure:
 [
-  { "content": "insight text here", "category": "pattern" | "burnout_warning" | "recovery_suggestion" | "social_tip" }
+  { "content": "insight text here", "category": "pattern" | "burnout_warning" | "recovery_suggestion" | "social_tip" | "safe_person" | "circle_analysis" }
 ]
 
 Categories:
-- "pattern": A recurring pattern in their social energy
+- "pattern": A recurring energy pattern across interaction types or times
 - "burnout_warning": Signs of social exhaustion or overextension
-- "recovery_suggestion": Specific recovery action based on their patterns
+- "recovery_suggestion": A specific recovery action based on their patterns
 - "social_tip": A social intelligence tip tailored to their data
+- "safe_person": Call out a specific person who consistently improves their energy (e.g. "Conversations with [Name] tend to leave you noticeably more energized.")
+- "circle_analysis": An observation about the overall composition of their social circle
+
+Include at least one "safe_person" insight if the data shows a clear energizing person, and at least one "circle_analysis" observation.
 
 Return only the JSON array, no other text.`;
 

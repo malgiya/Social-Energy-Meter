@@ -198,6 +198,21 @@ paths:
         "400":
           description: Not enough data
 
+  /people/analysis:
+    get:
+      operationId: getSocialCircleAnalysis
+      tags: [insights]
+      summary: AI-powered social circle analysis — safe people, exhausting patterns, interaction balance
+      responses:
+        "200":
+          description: Social circle analysis
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SocialCircleAnalysis"
+        "400":
+          description: Not enough data
+
 components:
   schemas:
     HealthStatus:
@@ -337,7 +352,74 @@ components:
           type: string
         category:
           type: string
-          enum: [pattern, burnout_warning, recovery_suggestion, social_tip]
+          enum: [pattern, burnout_warning, recovery_suggestion, social_tip, safe_person, circle_analysis]
         createdAt:
           type: string
           format: date-time
+
+    SafePerson:
+      type: object
+      required: [personName, avgEnergyDelta, totalInteractions, safetyScore, summary]
+      properties:
+        personName:
+          type: string
+        avgEnergyDelta:
+          type: number
+        totalInteractions:
+          type: integer
+        safetyScore:
+          type: number
+          description: 0-100 score indicating how consistently this person energizes you
+        summary:
+          type: string
+          description: AI-generated one-line description of this relationship
+
+    CircleConnection:
+      type: object
+      required: [personName, avgEnergyDelta, totalInteractions, classification, insight]
+      properties:
+        personName:
+          type: string
+        avgEnergyDelta:
+          type: number
+        totalInteractions:
+          type: integer
+        classification:
+          type: string
+          enum: [energizing, neutral, draining]
+        insight:
+          type: string
+          description: Short AI-generated insight about this person
+
+    SocialCircleAnalysis:
+      type: object
+      required: [safePeople, connections, interactionBalance, overallHealthScore, summary]
+      properties:
+        safePeople:
+          type: array
+          items:
+            $ref: "#/components/schemas/SafePerson"
+        connections:
+          type: array
+          items:
+            $ref: "#/components/schemas/CircleConnection"
+        interactionBalance:
+          type: object
+          required: [energizingCount, neutralCount, drainingCount, energizingPercent, drainingPercent]
+          properties:
+            energizingCount:
+              type: integer
+            neutralCount:
+              type: integer
+            drainingCount:
+              type: integer
+            energizingPercent:
+              type: number
+            drainingPercent:
+              type: number
+        overallHealthScore:
+          type: number
+          description: 0-100 score for overall social circle health
+        summary:
+          type: string
+          description: AI-generated one-paragraph summary of the user's social circle

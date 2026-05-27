@@ -14,4 +14,6 @@ export const InsightCategory = {
   burnout_warning: 'burnout_warning',
   recovery_suggestion: 'recovery_suggestion',
   social_tip: 'social_tip',
+  safe_person: 'safe_person',
+  circle_analysis: 'circle_analysis',
 } as const;

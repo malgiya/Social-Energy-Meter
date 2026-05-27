@@ -6,6 +6,8 @@
  * OpenAPI spec version: 0.1.0
  */
 
+export * from './circleConnection';
+export * from './circleConnectionClassification';
 export * from './energyTrendDay';
 export * from './healthStatus';
 export * from './insight';
@@ -19,3 +21,6 @@ export * from './interactionSummaryBurnoutLevel';
 export * from './interactionUpdate';
 export * from './interactionUpdateInteractionType';
 export * from './personEnergy';
+export * from './safePerson';
+export * from './socialCircleAnalysis';
+export * from './socialCircleAnalysisInteractionBalance';

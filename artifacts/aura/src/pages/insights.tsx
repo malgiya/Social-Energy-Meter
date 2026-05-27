@@ -2,7 +2,7 @@ import { useListInsights, useGenerateInsights, getListInsightsQueryKey } from "@
 import { PageTransition, staggerContainer, staggerItem } from "@/components/ui/page-transition";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Sparkles, Brain, AlertCircle, RefreshCw, Leaf } from "lucide-react";
+import { Sparkles, Brain, AlertCircle, RefreshCw, Leaf, Heart, Compass } from "lucide-react";
 import { formatDistanceToNow, parseISO } from "date-fns";
 import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
@@ -31,6 +31,8 @@ export default function Insights() {
       case "burnout_warning": return { icon: AlertCircle, color: "text-destructive", bg: "bg-destructive/10", border: "border-destructive/20" };
       case "recovery_suggestion": return { icon: Leaf, color: "text-green-500", bg: "bg-green-500/10", border: "border-green-500/20" };
       case "social_tip": return { icon: Sparkles, color: "text-primary", bg: "bg-primary/10", border: "border-primary/20" };
+      case "safe_person": return { icon: Heart, color: "text-amber-500", bg: "bg-amber-500/10", border: "border-amber-500/20" };
+      case "circle_analysis": return { icon: Compass, color: "text-blue-400", bg: "bg-blue-400/10", border: "border-blue-400/20" };
       default: return { icon: Sparkles, color: "text-muted-foreground", bg: "bg-white/5", border: "border-white/10" };
     }
   };

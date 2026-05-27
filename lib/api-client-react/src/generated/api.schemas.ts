@@ -159,6 +159,8 @@ export const InsightCategory = {
   burnout_warning: 'burnout_warning',
   recovery_suggestion: 'recovery_suggestion',
   social_tip: 'social_tip',
+  safe_person: 'safe_person',
+  circle_analysis: 'circle_analysis',
 } as const;
 
 export interface Insight {
@@ -166,5 +168,51 @@ export interface Insight {
   content: string;
   category: InsightCategory;
   createdAt: string;
+}
+
+export interface SafePerson {
+  personName: string;
+  avgEnergyDelta: number;
+  totalInteractions: number;
+  /** 0-100 score indicating how consistently this person energizes you */
+  safetyScore: number;
+  /** AI-generated one-line description of this relationship */
+  summary: string;
+}
+
+export type CircleConnectionClassification = typeof CircleConnectionClassification[keyof typeof CircleConnectionClassification];
+
+
+export const CircleConnectionClassification = {
+  energizing: 'energizing',
+  neutral: 'neutral',
+  draining: 'draining',
+} as const;
+
+export interface CircleConnection {
+  personName: string;
+  avgEnergyDelta: number;
+  totalInteractions: number;
+  classification: CircleConnectionClassification;
+  /** Short AI-generated insight about this person */
+  insight: string;
+}
+
+export type SocialCircleAnalysisInteractionBalance = {
+  energizingCount: number;
+  neutralCount: number;
+  drainingCount: number;
+  energizingPercent: number;
+  drainingPercent: number;
+};
+
+export interface SocialCircleAnalysis {
+  safePeople: SafePerson[];
+  connections: CircleConnection[];
+  interactionBalance: SocialCircleAnalysisInteractionBalance;
+  /** 0-100 score for overall social circle health */
+  overallHealthScore: number;
+  /** AI-generated one-paragraph summary of the user's social circle */
+  summary: string;
 }
 

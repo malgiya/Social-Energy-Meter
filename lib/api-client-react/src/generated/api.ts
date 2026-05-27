@@ -27,7 +27,8 @@ import type {
   InteractionInput,
   InteractionSummary,
   InteractionUpdate,
-  PersonEnergy
+  PersonEnergy,
+  SocialCircleAnalysis
 } from './api.schemas';
 
 import { customFetch } from '../custom-fetch';
@@ -863,4 +864,81 @@ export const useGenerateInsights = <TError = ErrorType<void>,
       > => {
       return useMutation(getGenerateInsightsMutationOptions(options));
     }
+
+export const getGetSocialCircleAnalysisUrl = () => {
+
+
+
+
+  return `/api/people/analysis`
+}
+
+/**
+ * @summary AI-powered social circle analysis — safe people, exhausting patterns, interaction balance
+ */
+export const getSocialCircleAnalysis = async ( options?: RequestInit): Promise<SocialCircleAnalysis> => {
+
+  return customFetch<SocialCircleAnalysis>(getGetSocialCircleAnalysisUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetSocialCircleAnalysisQueryKey = () => {
+    return [
+    `/api/people/analysis`
+    ] as const;
+    }
+
+
+export const getGetSocialCircleAnalysisQueryOptions = <TData = Awaited<ReturnType<typeof getSocialCircleAnalysis>>, TError = ErrorType<void>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getSocialCircleAnalysis>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetSocialCircleAnalysisQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getSocialCircleAnalysis>>> = ({ signal }) => getSocialCircleAnalysis({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getSocialCircleAnalysis>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetSocialCircleAnalysisQueryResult = NonNullable<Awaited<ReturnType<typeof getSocialCircleAnalysis>>>
+export type GetSocialCircleAnalysisQueryError = ErrorType<void>
+
+
+/**
+ * @summary AI-powered social circle analysis — safe people, exhausting patterns, interaction balance
+ */
+
+export function useGetSocialCircleAnalysis<TData = Awaited<ReturnType<typeof getSocialCircleAnalysis>>, TError = ErrorType<void>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getSocialCircleAnalysis>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetSocialCircleAnalysisQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+
+
 
