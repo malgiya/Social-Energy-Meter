@@ -1,0 +1,279 @@
+# Social Energy Meter — Strong Hackathon Idea
+
+This is actually a very good choice for this hackathon because it’s:
+
+* personal
+* emotionally intelligent
+* AI-enhanced
+* visually demoable
+* easy to explain in 10 seconds
+
+It feels like a **real product**, not just “AI wrapper #284”.
+
+---
+
+# Core Concept
+
+## Problem
+
+People track:
+
+* steps
+* sleep
+* calories
+* productivity
+
+…but nobody tracks:
+
+# social exhaustion.
+
+Some interactions energize us.
+Some drain us.
+
+Your app helps users understand:
+
+* who gives energy
+* what situations cause burnout
+* when to recharge
+* how social patterns affect mood
+
+---
+
+# MVP (What You Can Actually Finish)
+
+Keep scope SMALL.
+
+## Main Flow
+
+### User logs:
+
+* who they met
+* duration
+* mood before
+* mood after
+* interaction type
+
+Examples:
+
+* work meeting
+* friend hangout
+* family call
+* party
+* texting
+
+---
+
+# AI Features
+
+## 1. Energy Analysis
+
+AI notices patterns like:
+
+> “Group settings after 7 PM tend to drain you.”
+
+or
+
+> “Conversations with close friends improve your mood.”
+
+---
+
+## 2. Burnout Prediction
+
+Example:
+
+> “You’ve had 11 social interactions in 3 days. High exhaustion risk.”
+
+---
+
+## 3. Recovery Suggestions
+
+Example:
+
+* quiet evening
+* music
+* solo walk
+* journaling
+
+---
+
+# Best Feature (Very Important)
+
+## “Energy Map”
+
+Visual graph showing:
+
+* people who energize
+* people who drain
+* neutral interactions
+
+This is your demo-video “wow moment”.
+
+---
+
+# Simple Tech Stack
+
+## Easiest
+
+* [Lovable](https://lovable.dev?utm_source=chatgpt.com)
+* [Supabase](https://supabase.com?utm_source=chatgpt.com)
+* [OpenAI API](https://platform.openai.com?utm_source=chatgpt.com)
+
+OR
+
+## Better Portfolio Stack
+
+* [Next.js](https://nextjs.org?utm_source=chatgpt.com)
+* [Tailwind CSS](https://tailwindcss.com?utm_source=chatgpt.com)
+* [Vercel](https://vercel.com?utm_source=chatgpt.com)
+* Supabase
+* OpenAI
+
+---
+
+# Screens You Need
+
+## 1. Dashboard
+
+* energy score today
+* weekly trend
+* burnout level
+
+---
+
+## 2. Add Interaction
+
+Simple form:
+
+* person
+* interaction type
+* energy before/after
+* notes
+
+---
+
+## 3. Insights Page
+
+AI-generated insights.
+
+---
+
+## 4. Energy Graph
+
+Most visually impressive screen.
+
+---
+
+# Names
+
+Best ones:
+
+* VibeMeter
+* Aura
+* SocialFuel
+* Echo
+* Energi
+* MoodOrbit
+* Pulse
+* InnerCircle
+
+My favorite:
+
+# Aura
+
+Simple and memorable.
+
+---
+
+# Why Judges Could Like It
+
+It scores well on all judging categories:
+
+## Product Thinking
+
+Clear real-world emotional problem.
+
+## Craft
+
+Can look beautiful with minimal UI.
+
+## Originality
+
+Different from generic productivity apps.
+
+## Shippedness
+
+Easy to make fully functional.
+
+---
+
+# Secret To Make It Feel Premium
+
+Don’t make it “mental health therapy”.
+
+Make it:
+
+# self-awareness + social intelligence.
+
+That positioning feels more modern and less clinical.
+
+---
+
+# Demo Video Structure
+
+## 1. Hook
+
+> “We track everything except the thing that drains us most: social energy.”
+
+---
+
+## 2. Problem
+
+Show overwhelming schedule/social fatigue.
+
+---
+
+## 3. Product Demo
+
+Log interaction → AI insight → energy graph.
+
+---
+
+## 4. AI Insight Moment
+
+This is the emotional hook.
+
+---
+
+## 5. Future Vision
+
+Calendar integration, smartwatch, etc.
+
+---
+
+# Advanced Features (ONLY if time remains)
+
+* calendar sync
+* WhatsApp/chat sentiment
+* AI weekly reports
+* social battery widget
+* friend categories
+* introvert/extrovert mode
+
+---
+
+# Most Important Advice
+
+DO NOT overbuild.
+
+A polished:
+
+* landing page
+* 4 good screens
+* smooth UX
+* 1 amazing AI insight
+
+will beat:
+
+* 20 half-working features
+
+for this kind of hackathon.

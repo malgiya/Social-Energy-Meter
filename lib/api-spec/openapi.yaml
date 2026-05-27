@@ -3,20 +3,23 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: Aura — Social Energy Tracker API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: interactions
+    description: Social interaction logging
+  - name: insights
+    description: AI-generated energy insights
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,13 +27,317 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /interactions:
+    get:
+      operationId: listInteractions
+      tags: [interactions]
+      summary: List all social interactions
+      responses:
+        "200":
+          description: List of interactions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Interaction"
+    post:
+      operationId: createInteraction
+      tags: [interactions]
+      summary: Log a new social interaction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InteractionInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Interaction"
+        "400":
+          description: Bad request
+
+  /interactions/summary:
+    get:
+      operationId: getInteractionSummary
+      tags: [interactions]
+      summary: Dashboard summary — today's energy score, weekly trend, burnout level
+      responses:
+        "200":
+          description: Summary data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InteractionSummary"
+
+  /interactions/people:
+    get:
+      operationId: listPeopleEnergy
+      tags: [interactions]
+      summary: Energy map data — average energy delta per person
+      responses:
+        "200":
+          description: Per-person energy stats
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PersonEnergy"
+
+  /interactions/trends:
+    get:
+      operationId: getEnergyTrends
+      tags: [interactions]
+      summary: Weekly energy trend — last 7 days of daily net energy
+      responses:
+        "200":
+          description: Daily trend data
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/EnergyTrendDay"
+
+  /interactions/{id}:
+    get:
+      operationId: getInteraction
+      tags: [interactions]
+      summary: Get a single interaction
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Interaction
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Interaction"
+        "404":
+          description: Not found
+    patch:
+      operationId: updateInteraction
+      tags: [interactions]
+      summary: Update an interaction
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InteractionUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Interaction"
+        "404":
+          description: Not found
+    delete:
+      operationId: deleteInteraction
+      tags: [interactions]
+      summary: Delete an interaction
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+        "404":
+          description: Not found
+
+  /insights:
+    get:
+      operationId: listInsights
+      tags: [insights]
+      summary: List AI-generated insights
+      responses:
+        "200":
+          description: List of insights
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Insight"
+
+  /insights/generate:
+    post:
+      operationId: generateInsights
+      tags: [insights]
+      summary: Trigger AI analysis and generate new insights
+      responses:
+        "200":
+          description: Newly generated insights
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Insight"
+        "400":
+          description: Not enough data
+
 components:
   schemas:
     HealthStatus:
       type: object
+      required: [status]
       properties:
         status:
           type: string
-      required:
-        - status
 
+    Interaction:
+      type: object
+      required: [id, personName, interactionType, energyBefore, energyAfter, durationMinutes, createdAt]
+      properties:
+        id:
+          type: integer
+        personName:
+          type: string
+        interactionType:
+          type: string
+          enum: [work_meeting, friend_hangout, family_call, party, texting, date, group_event, solo_activity, other]
+        energyBefore:
+          type: integer
+          minimum: 1
+          maximum: 10
+        energyAfter:
+          type: integer
+          minimum: 1
+          maximum: 10
+        energyDelta:
+          type: integer
+        durationMinutes:
+          type: integer
+        notes:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+          format: date-time
+
+    InteractionInput:
+      type: object
+      required: [personName, interactionType, energyBefore, energyAfter, durationMinutes]
+      properties:
+        personName:
+          type: string
+          minLength: 1
+        interactionType:
+          type: string
+          enum: [work_meeting, friend_hangout, family_call, party, texting, date, group_event, solo_activity, other]
+        energyBefore:
+          type: integer
+          minimum: 1
+          maximum: 10
+        energyAfter:
+          type: integer
+          minimum: 1
+          maximum: 10
+        durationMinutes:
+          type: integer
+          minimum: 1
+        notes:
+          type: string
+
+    InteractionUpdate:
+      type: object
+      properties:
+        personName:
+          type: string
+          minLength: 1
+        interactionType:
+          type: string
+          enum: [work_meeting, friend_hangout, family_call, party, texting, date, group_event, solo_activity, other]
+        energyBefore:
+          type: integer
+          minimum: 1
+          maximum: 10
+        energyAfter:
+          type: integer
+          minimum: 1
+          maximum: 10
+        durationMinutes:
+          type: integer
+          minimum: 1
+        notes:
+          type: ["string", "null"]
+
+    InteractionSummary:
+      type: object
+      required: [todayEnergyScore, weeklyAvgDelta, burnoutLevel, totalInteractionsThisWeek, mostDrainingType, mostEnergizingType]
+      properties:
+        todayEnergyScore:
+          type: ["integer", "null"]
+        weeklyAvgDelta:
+          type: ["number", "null"]
+        burnoutLevel:
+          type: string
+          enum: [low, moderate, high, critical]
+        totalInteractionsThisWeek:
+          type: integer
+        mostDrainingType:
+          type: ["string", "null"]
+        mostEnergizingType:
+          type: ["string", "null"]
+
+    PersonEnergy:
+      type: object
+      required: [personName, avgEnergyDelta, totalInteractions, lastInteractionAt]
+      properties:
+        personName:
+          type: string
+        avgEnergyDelta:
+          type: number
+        totalInteractions:
+          type: integer
+        lastInteractionAt:
+          type: ["string", "null"]
+          format: date-time
+
+    EnergyTrendDay:
+      type: object
+      required: [date, netEnergyDelta, interactionCount]
+      properties:
+        date:
+          type: string
+          format: date
+        netEnergyDelta:
+          type: integer
+        interactionCount:
+          type: integer
+
+    Insight:
+      type: object
+      required: [id, content, category, createdAt]
+      properties:
+        id:
+          type: integer
+        content:
+          type: string
+        category:
+          type: string
+          enum: [pattern, burnout_warning, recovery_suggestion, social_tip]
+        createdAt:
+          type: string
+          format: date-time
