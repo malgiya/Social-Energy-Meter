@@ -1,42 +1,51 @@
+import Dashboard from "./pages/dashboard";
+import LogInteraction from "./pages/log-interaction";
+import EnergyMap from "./pages/energy-map";
+import Insights from "./pages/insights";
+import HistoryPage from "./pages/history";
+import NotFound from "./pages/not-found";
 import { Switch, Route, Router as WouterRouter } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import NotFound from "@/pages/not-found";
+import { Shell } from "@/components/layout/shell";
+import { AnimatePresence } from "framer-motion";
 
-const queryClient = new QueryClient();
-
-function Home() {
-  return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-gray-50">
-      <div className="text-center">
-        <h1 className="text-2xl font-bold text-gray-900">Replit Agent is building...</h1>
-        <p className="mt-2 text-sm text-gray-600">Your app will appear here once it's ready.</p>
-      </div>
-    </div>
-  );
-}
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 function Router() {
   return (
-    <Switch>
-      <Route path="/" component={Home} />
-      <Route component={NotFound} />
-    </Switch>
+    <AnimatePresence mode="wait">
+      <Switch>
+        <Route path="/" component={Dashboard} />
+        <Route path="/log" component={LogInteraction} />
+        <Route path="/map" component={EnergyMap} />
+        <Route path="/insights" component={Insights} />
+        <Route path="/history" component={HistoryPage} />
+        <Route component={NotFound} />
+      </Switch>
+    </AnimatePresence>
   );
 }
 
-function App() {
+export default function AppRoot() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-          <Router />
+          <Shell>
+            <Router />
+          </Shell>
         </WouterRouter>
         <Toaster />
       </TooltipProvider>
     </QueryClientProvider>
   );
 }
-
-export default App;
