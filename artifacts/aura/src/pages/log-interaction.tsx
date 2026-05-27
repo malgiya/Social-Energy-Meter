@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { PageTransition } from "@/components/ui/page-transition";
-import { useCreateInteraction, getListInteractionsQueryKey, getGetInteractionSummaryQueryKey } from "@workspace/api-client-react";
+import { useCreateInteraction, getListInteractionsQueryKey, getGetInteractionSummaryQueryKey, getGetEnergyTrendsQueryKey, getListPeopleEnergyQueryKey } from "@workspace/api-client-react";
 import { useLocation } from "wouter";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
@@ -59,6 +59,8 @@ export default function LogInteraction() {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: getListInteractionsQueryKey() });
           queryClient.invalidateQueries({ queryKey: getGetInteractionSummaryQueryKey() });
+          queryClient.invalidateQueries({ queryKey: getGetEnergyTrendsQueryKey() });
+          queryClient.invalidateQueries({ queryKey: getListPeopleEnergyQueryKey() });
           toast({ title: "Logged successfully", description: "Your energy shift has been recorded." });
           setLocation("/");
         },

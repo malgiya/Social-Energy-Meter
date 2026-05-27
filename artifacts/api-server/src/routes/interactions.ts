@@ -84,12 +84,19 @@ router.get("/interactions/summary", async (req, res): Promise<void> => {
 
   const totalThisWeek = weekRows.length;
 
+  // Burnout is driven primarily by energy quality (avgDelta), with count as a secondary signal
   let burnoutLevel: "low" | "moderate" | "high" | "critical" = "low";
-  if (totalThisWeek >= 15 || (weeklyAvgDelta !== null && weeklyAvgDelta < -3)) {
-    burnoutLevel = "critical";
-  } else if (totalThisWeek >= 10 || (weeklyAvgDelta !== null && weeklyAvgDelta < -1.5)) {
-    burnoutLevel = "high";
-  } else if (totalThisWeek >= 6 || (weeklyAvgDelta !== null && weeklyAvgDelta < 0)) {
+  if (weeklyAvgDelta !== null) {
+    if (weeklyAvgDelta < -2.5 || (weeklyAvgDelta < -1 && totalThisWeek >= 14)) {
+      burnoutLevel = "critical";
+    } else if (weeklyAvgDelta < -1 || (weeklyAvgDelta < 0 && totalThisWeek >= 12)) {
+      burnoutLevel = "high";
+    } else if (weeklyAvgDelta < 0.5 && totalThisWeek >= 8) {
+      burnoutLevel = "moderate";
+    } else if (weeklyAvgDelta < 0) {
+      burnoutLevel = "moderate";
+    }
+  } else if (totalThisWeek >= 12) {
     burnoutLevel = "moderate";
   }
 
