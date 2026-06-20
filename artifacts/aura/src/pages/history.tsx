@@ -19,6 +19,11 @@ export default function HistoryPage() {
     setDeletingId(id);
     deleteInteraction.mutate({ id }, {
       onSuccess: () => {
+        if (typeof pendo !== "undefined") {
+          pendo.track("interaction_deleted", {
+            interactionId: id,
+          });
+        }
         queryClient.invalidateQueries({ queryKey: getListInteractionsQueryKey() });
         toast({ description: "Entry removed from journal." });
         setDeletingId(null);
