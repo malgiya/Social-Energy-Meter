@@ -57,6 +57,16 @@ export default function LogInteraction() {
       },
       {
         onSuccess: () => {
+          if (typeof pendo !== "undefined") {
+            pendo.track("interaction_logged", {
+              interactionType,
+              energyBefore,
+              energyAfter,
+              energyDelta: energyAfter - energyBefore,
+              durationMinutes: Number(durationMinutes),
+              hasNotes: Boolean(notes.trim()),
+            });
+          }
           queryClient.invalidateQueries({ queryKey: getListInteractionsQueryKey() });
           queryClient.invalidateQueries({ queryKey: getGetInteractionSummaryQueryKey() });
           queryClient.invalidateQueries({ queryKey: getGetEnergyTrendsQueryKey() });

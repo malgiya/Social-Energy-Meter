@@ -16,6 +16,17 @@ export default function EnergyMap() {
 
   const handleRefreshAnalysis = async () => {
     await queryClient.refetchQueries({ queryKey: getGetSocialCircleAnalysisQueryKey() });
+    if (typeof pendo !== "undefined") {
+      const freshAnalysis = queryClient.getQueryData(getGetSocialCircleAnalysisQueryKey()) as typeof analysis | undefined;
+      pendo.track("social_circle_analysis_refreshed", {
+        overallHealthScore: freshAnalysis?.overallHealthScore,
+        safePeopleCount: freshAnalysis?.safePeople?.length,
+        connectionsCount: freshAnalysis?.connections?.length,
+        energizingCount: freshAnalysis?.interactionBalance?.energizingCount,
+        drainingCount: freshAnalysis?.interactionBalance?.drainingCount,
+        neutralCount: freshAnalysis?.interactionBalance?.neutralCount,
+      });
+    }
     toast({ title: "Analysis Refreshed", description: "Your social circle analysis is up to date." });
   };
 

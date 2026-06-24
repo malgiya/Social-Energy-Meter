@@ -15,7 +15,16 @@ export default function Insights() {
 
   const handleGenerate = () => {
     generateInsights.mutate(undefined, {
-      onSuccess: () => {
+      onSuccess: (data) => {
+        if (typeof pendo !== "undefined") {
+          const insightsData = data as Array<{ category?: string }> | undefined;
+          pendo.track("ai_insights_generated", {
+            insightsCount: Array.isArray(insightsData) ? insightsData.length : undefined,
+            categories: Array.isArray(insightsData)
+              ? [...new Set(insightsData.map((i) => i.category).filter(Boolean))].join(",")
+              : undefined,
+          });
+        }
         queryClient.invalidateQueries({ queryKey: getListInsightsQueryKey() });
         toast({ title: "Oracle consulted", description: "New insights have been woven." });
       },
